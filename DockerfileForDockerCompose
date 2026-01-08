@@ -1,0 +1,5 @@
+FROM node:24-alpine
+WORKDIR /workspaces/daigirin-template
+
+COPY package.json yarn.lock ./
+RUN corepack enable yarn && yarn install --immutable && yarn cache clean
