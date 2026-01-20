@@ -118,8 +118,8 @@ if ([]) {
 
 JavaScript と違い、空のリスト`[]`は「偽」です。
 
-[^js-falsy]: MDN - Falsy, https://developer.mozilla.org/ja/docs/Glossary/Falsy
-[^python-falsy]: Python Documentation - Truth Value Testing, https://docs.python.org/ja/3/library/stdtypes.html
+[^js-falsy]: "MDN - Falsy", https://developer.mozilla.org/ja/docs/Glossary/Falsy
+[^python-falsy]: "Python Documentation - Truth Value Testing", https://docs.python.org/ja/3/library/stdtypes.html
 
 ### 言語による違いがもたらす不安定性
 
@@ -183,7 +183,8 @@ case .authorized:
 しかしながら、開発において、仕様により Optional Bool が避けられない場合もあります。
 
 - 外部 API のレスポンスに Optional Bool が含まれている
-- サードパーティライブラリの型定義、など
+- サードパーティライブラリの型定義
+- 出来の悪い仕様、など
 
 このような場合、nil が何を意味するかを適切に定義しましょう。nil をどう解釈するかで Optional Bool の分岐方法が変わります。次のような Optional Bool が定義されたときの分岐を考えていきましょう。
 
@@ -435,7 +436,9 @@ typedef signed char BOOL;
 #define NO  (BOOL)0
 ```
 
-この定義から分かるように、BOOL は実質的に signed char（-128 から 127 の整数値）であり、YES と NO はそれぞれ 1 と 0 を表すマクロに過ぎませんでした。これは、true と false という明確な論理値をもつ Swift の Bool 型とは根本的に異なります。
+この定義から分かるように、BOOL は実質的に signed char（-128 から 127 の整数値）であり、YES と NO はそれぞれ 1 と 0 を表すマクロに過ぎません [^objc-bool]。これは、true と false という明確な論理値をもつ Swift の Bool 型とは根本的に異なります。
+
+[^objc-bool]: "Objective-C Runtime / Boolean Values", https://developer.apple.com/documentation/objectivec/boolean-values
 
 ### signed char であることの問題
 
