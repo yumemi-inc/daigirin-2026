@@ -3,11 +3,11 @@ class: content
 ---
 
 <div class="doc-header">
-  <div class="doc-title">二値の Bool を Optional で三値するな高校</div>
+  <div class="doc-title">おお我らが二値の Bool を Optional で三値するな高校</div>
   <div class="doc-author">江本光晴</div>
 </div>
 
-# 二値の Bool を Optional で三値するな高校
+# おお我らが二値の Bool を Optional で三値するな高校
 
 こんにちは、二値の Bool を Optional で三値するな高校から来ました。今回は、本校の校則を紹介します。
 
