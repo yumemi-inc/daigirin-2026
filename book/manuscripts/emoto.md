@@ -68,7 +68,7 @@ var isReady: Bool?    // Optional な Bool
 
 `Bool?` 型で定義した時、その型の変数が扱える値は true, false, nil になります。
 
-<center><strong>アイエエエエ！本来２状態の Bool が３つ？！Bool３つナンデ！！</strong></center>
+<center><strong>アイエエエエ！Bool が３つ？！３つナンデ！！</strong></center>
 
 この第３の状態 nil をどう扱いますか？
 
@@ -176,32 +176,29 @@ case .authorized:
 }
 ```
 
-この enum で定義した PermissionState はコードを読めば、3つの状態が何を意味するか明確で、nil のような曖昧な状態がありません。さらに、switch はエディターの補完により、全ケースを補完してくれるので、コードミスを防ぐことができます。また、将来的に新しい状態（例: `.restricted`）を追加しやすいです。
+この enum で定義した PermissionState はコードを読めば、３つの状態が何を意味するか明確で、nil のような曖昧な状態がありません。さらに、switch はエディターの補完により、全ケースを補完してくれるので、コードミスを防ぐことができます。また、将来的に新しい状態（例: `.restricted`）を追加しやすいです。
 
 ## やむを得ず Optional Bool を使う場合
 
 しかしながら、開発において、仕様により Optional Bool が避けられない場合もあります。
 
-- 外部 API のレスポンスに `Bool?` が含まれている
-- レガシーコードとの互換性維持
-- サードパーティライブラリの型定義
-- データベースのNULL許容カラム
+- 外部 API のレスポンスに Optional Bool が含まれている
+- サードパーティライブラリの型定義、など
 
-このような場合は、nil が何を意味するかチームで適切に定義しましょう。Optional Bool を扱う際、nil をどう解釈するかで分岐方法が変わります。
-
-### パターン1: nilの意味が不明確な場合（3分岐）
-
-nilを独立した状態として扱う必要がある場合です。
-
-- guard let + if-else
+このような場合、nil が何を意味するかを適切に定義しましょう。nil をどう解釈するかで Optional Bool の分岐方法が変わります。次のような Optional Bool が定義されたときの分岐を考えていきましょう。
 
 ```swift
 var isEnabled: Bool?
+```
 
-guard let isEnabled else {
-    print("nil: 状態が未定義")
-    return
-}
+### nil の意味が不明確な場合
+
+nil が true or false のどちらにも属さず、独立した状態として扱う必要がある場合です。この場合の Optional Bool は三状態になります。
+
+安心安全の guard を利用します。nil の場合は早期 return して、optional を取り除きます。変数を操作するときは Bool になているので、私はこの分岐が好みです。
+
+```swift
+guard let isEnabled else { print("nil: 状態が未定義"); return; }
 
 if isEnabled {
     print("true: 有効")
@@ -210,33 +207,17 @@ if isEnabled {
 }
 ```
 
-- switch
+他には switch を使って、愚直に分岐します。
 
 ```swift
 switch isEnabled {
-case true:
-    print("true: 有効")
-case false:
-    print("false: 無効")
-case nil:
-    print("nil: 状態が未定義")
+case true:  print("true: 有効")
+case false: print("false: 無効")
+case nil:   print("nil: 状態が未定義")
 }
 ```
 
-- switch with Optional pattern
-
-```swift
-switch isEnabled {
-case .some(true):
-    print("true: 有効")
-case .some(false):
-    print("false: 無効")
-case .none:
-    print("nil: 未設定")
-}
-```
-
-- if-else チェーン
+もちろん if-else でも分岐できます。これらはシンプルですが、変数を操作する時は optional のままが気になります。
 
 ```swift
 if isEnabled == true {
@@ -248,147 +229,127 @@ if isEnabled == true {
 }
 ```
 
-- if case パターンマッチング
+### nil を false として扱う場合
 
-```swift
-if case true = isEnabled {
-    print("true: 有効")
-} else if case false = isEnabled {
-    print("false: 無効")
-} else {
-    print("nil: 未設定")
-}
-```
+nil を false とみなす場合です。値は３つですが、意味としては２つです。まだ許容できるが、厳しい。
 
-### パターン2: nilをfalseとして扱う場合
-
-nilを「無効」と同義とみなす場合です。
-
-- Nil-coalescing operator
+`??` で表記される Nil 結合演算子（Nil-Coalescing Operator）で分岐してみました。
 
 ```swift
 if isEnabled ?? false {
-    print("trueのときだけ実行")
+    print("true")
+} else {
+    print("false or nil")
 }
 ```
 
-- guard with Nil-coalescing
+guard でも書き直せます。
 
 ```swift
-guard isEnabled ?? false else {
-    print("false または nil")
-    return
-}
-print("trueのときだけ実行")
+guard isEnabled ?? false else { print("false or nil"); return; }
+print("true")
 ```
 
-- Optional binding + 条件
+次に、オプショナルバインディング（Optional-Binding）を使って、nil を弾きます。
 
 ```swift
 if let isEnabled, isEnabled {
-    print("trueのときだけ実行")
-}
-```
-
-- 直接比較（明示的）
-
-```swift
-if isEnabled == true {
-    print("trueのときだけ実行")
-}
-// 注意: 以下はNG（nilもtrueとして扱われる）
-if isEnabled != false {
-    // これは true または nil のときに入る
-}
-```
-
-- Optional pattern matching
-
-```swift
-if case true? = isEnabled {
-    print("trueのときだけ実行")
+    print("true")
 } else {
-    print("false または nil")
+    print("false or nil")
 }
 ```
 
-### パターン3: nilをtrueとして扱う場合
-
-nilを「有効」と同義とみなす場合です（レアケース）。オプトインです
-
-- 否定形での比較
-
-```swift
-if isEnabled != false {
-    print("true または nil のときに実行")
-}
-```
-
-- Nil-coalescing operator
-
-```swift
-if isEnabled ?? true {
-    print("true または nil のときに実行")
-}
-```
-
-- guard with Nil-coalescing
-
-```swift
-guard isEnabled ?? true else {
-    print("falseのときだけここに来る")
-    return
-}
-print("true または nil のときに実行")
-```
-
-- switch with grouping
+switch や if-case でパターンマッチングもあります。
 
 ```swift
 switch isEnabled {
-case .some(false):
-    print("falseのときだけ")
-case .some(true), .none:
-    print("true または nil")
+  case true: print("true")
+  default: print("false or nil")
 }
 ```
 
-- Optional pattern matching（否定形）
+```swift
+if case true = isEnabled {
+    print("true")
+} else {
+    print("false or nil")
+}
+```
+
+もちろん愚直に比較もできます。
 
 ```swift
-if case false? = isEnabled {
-    print("falseのときだけ")
+if isEnabled == true {
+    print("true")
+} else  {
+    print("false or nil")
+}
+```
+
+### nil を true として扱う場合
+
+nil を true とみなす場合です。レアケースかもですが、オプトインとして設計する場合に起こりえます。
+
+同じように Nil 結合演算子（Nil-Coalescing Operator）で分岐できますが、右辺の値が逆になります。
+
+```swift
+if isEnabled ?? true {
+  print("true or nil")
+} else {
+  print("false")
+}
+```
+
+guard でも書き直せます。
+
+```swift
+guard isEnabled ?? true else { print("false"); return; }
+print("true or nil")
+```
+
+switch や if-case でパターンマッチングもあります。
+
+```swift
+switch isEnabled {
+case .false: print("false")
+default: print("true or nil")
+}
+```
+
+```swift
+if case false = isEnabled {
+    print("false")
 } else {
     print("true または nil")
 }
 ```
 
-⚠️ **可読性の注意**
+愚直に比較する。
 
 ```swift
-// 読みにくい & ミスりやすい
-if isEnabled == true || isEnabled == nil {
-    // ...
+if isEnabled != false {
+    print("true または nil")
+} else {
+print("false")
 }
 ```
 
-## Optional Bool 設計指針
+## Optional Bool の設計指針
 
-前節、やはり分岐が複雑になるため、Optional Bool は可能な限り排除しましょう。
-
-### Optional Boolを避ける
-
-可能な限り、通常のBool型を使用する。
+前節から、やはり分岐が複雑になるため、Optional Bool は可能な限り排除しましょう。
 
 ```swift
-// ❌ 避けるべき
+// 避けるべき
 var isEnabled: Bool?
 
-// ✅ 推奨
-var isEnabled: Bool = false
+// 推奨
+var isEnabled: Bool
 ```
 
-### 三値以上が必要ならEnumを使う
+## 三値以上の利用
+
+三値以上が必要なら、素直に Enum を利用しましょう。
 
 ```swift
 // 避けるべき
@@ -404,7 +365,7 @@ enum UserConsent {
 
 ### API レスポンスでの対処
 
-外部APIから`Bool?`を受け取る場合は、境界で変換する。
+外部 API から`Bool?`を受け取る場合は、境界で変換する。
 
 ```swift
 struct APIResponse: Codable {
@@ -422,9 +383,9 @@ struct AppModel {
 }
 ```
 
-### ドキュメント化
+### ドキュメント化＆テスト
 
-やむを得ずOptional Boolを使う場合は、必ずドキュメント化する。
+やむを得ず Optional Bool を使う場合は、必ずドキュメント化しましょう。また、テストを実装して、出来の悪い仕様の安全性を担保しましょう。
 
 ```swift
 /// ユーザーの通知設定
@@ -434,20 +395,103 @@ struct AppModel {
 var notificationEnabled: Bool?
 ```
 
-### コードレビューのチェックリスト
-
-- [ ] Optional Boolが本当に必要か？
-- [ ] nilの意味が明確に定義されているか？
-- [ ] Enumで代替できないか？
-- [ ] nilのハンドリングが全て網羅されているか？
-- [ ] 将来的に状態が増える可能性はないか？
-
 ## まとめ
 
-Bool 型は true or false を表現する二値の型として設計されています。しかし、nil 安全な言語の登場により、Optional Boolという副作用で true, false or nil と意図しない三値の型が発生しました。
+Bool 型は true or false を表現する二値の型として設計されています。しかし、nil 安全な言語の登場により、Optional Bool という副作用で true、false or nil と意図しない三値の型が発生しました。
 
-Optional Bool を安易に使うと可読性とメンテナンス性を損ないます。nil は「値がない」という意味であり、それ以上の意味を持たせるべきではありません。「なぜこの変数はOptionalなのか？」「nilは何を意味するのか？」という問いに明確に答えられない場合は、設計を見直すべきです。
+Optional Bool を安易に使うと可読性とメンテナンス性を損ないます。nil は「値がない」という意味であり、それ以上の意味を持たせるべきではありません。「なぜこの変数は Optional なのか？」「nil は何を意味するのか？」という問いに明確に答えられない場合は、設計を見直すべきです。
 
 また、第三の状態が必要な場合は Optional Bool に頼るのではなく、Enum を使って明示的に状態を定義することを推奨します。これにより、コードの意図が明確になり、将来的な拡張も容易になります。
 
 外部 API などから Optional Bool を受け取る場合は、アプリケーションの境界で非 Optional 型に変換し、内部では通常の Bool 型として扱うことで、複雑な分岐を避けましょう。この際、デフォルト値の意味を明確にドキュメント化することが重要です。
+
+<hr class="page-break"/>
+
+## おまけ「Objective-C の BOOL 型」
+
+Swift 以前の Objective-C では、Bool の扱いが現在とは大きく異なっていました。Objective-C の BOOL は独立した型ではなく、C 言語の型に対するエイリアスとマクロ定義でした。現在の定義は次のようになっています。
+
+```objc
+typedef bool BOOL;
+#define YES true
+#define NO  false
+```
+
+古いバージョンの実装では次のように定義されていました。
+
+```objc
+typedef signed char BOOL;
+#define YES (BOOL)1
+#define NO  (BOOL)0
+```
+
+この定義から分かるように、BOOL は実質的に signed char（-128 から 127 の整数値）であり、YES と NO はそれぞれ 1 と 0 を表すマクロに過ぎませんでした。これは、true と false という明確な論理値をもつ Swift の Bool 型とは根本的に異なります。
+
+### signed char であることの問題
+
+Objective-C の母体である C 言語は「0 ならば false、0 以外ならば true」として判定します。そのため、BOOL が signed char として定義されていることで、いくつかの問題が発生します。
+
+```objc
+// 問題例1: 0以外の値がYESとして扱われる
+BOOL result = 2;  // YES として扱われるが、YES (1) とは異なる
+if (result == YES) {  // false！
+    NSLog(@"This won't be executed");
+}
+
+// 問題例2: オーバーフロー
+BOOL overflow = 256;  // signed char の範囲外
+// 256 は 8 ビットでオーバーフローして 0 (NO) になる
+```
+
+BOOL の値が 1 でも 2 でも 255 だろうが、0 でなければすべて真として扱われます。このため、BOOL 型の比較では `==` を使わず、直接条件式で評価することも推奨されていました。
+
+```objc
+// 良い例
+if (result) {
+    NSLog(@"This is correct");
+    // result が 0 以外のあらゆる値で実行される
+}
+
+// 悪い例
+if (result == YES) {  // result が 2 の場合、期待通りに動作しない
+    NSLog(@"This might not work");
+    // result が 1 の場合のみ true になる
+}
+```
+
+### Optional な BOOL の扱い
+
+Objective-C には Swift のような Optional 型の概念がありません。nullable / nonnull という annotations（注釈）はありますが、 静的解析を補助するもので、nil 安全ではありません。
+
+Optional BOOL を表現するには別の方法が必要でした。API のレスポンスなどで nil を考慮する場合は、NSNumber を経由して BOOL を扱います。
+
+```objc
+// JSON: { "is_ready": true } または { } (キー自体がない)
+NSDictionary *json = ...; 
+
+// 1. まずは NSNumber オブジェクトとして取り出す
+NSNumber *isReadyNum = json[@"is_ready"];
+
+// 2. nil チェック（キーが存在するか）
+if (isReadyNum != nil && isReadyNum != (id)[NSNull null]) {
+    // 値が存在する場合のみ BOOL に変換
+    BOOL isReady = [isReadyNum boolValue];
+    NSLog(@"値は: %@", isReady ? @"YES" : @"NO");
+} else {
+    // 値がない（Optionalなケース）
+    NSLog(@"値が含まれていません");
+    // デフォルト値を使用するなどの処理
+}
+```
+
+この方法では、値の存在を NSNumber オブジェクトの nil チェックで判定し、値が存在する場合にのみ BOOL 値を取り出します。Swift の `Bool?` と同様に三値論理（nil、true、false）を扱いますが、Objective-C では NSNumber という別の型を経由する必要があるます。また、nil チェックと BOOL への変換を明示的に書く必要があるため、三値を扱っていることを開発者が意識せざるを得ない設計になっています。
+
+### Objective-C から学ぶこと
+
+Objective-C の BOOL 型の歴史は、型システムの重要性を教えてくれます。単なるエイリアスやマクロではなく、Swift のように言語レベルで適切に設計された型を使用することで、多くのバグを未然に防げます。
+
+しかし、型システムが進化したからといって、設計の問題が自動的に解決されるわけではありません。Objective-C では NSNumber を経由することで三値論理の複雑さが可視化されていました。一方、Swift では `Bool?` と書くだけで簡単に三値論理を作れてしまいます。この「手軽さ」が逆に危険なのです。
+
+Objective-C 時代、開発者は NSNumber 経由の煩雑なコードを書くことで「これは普通の BOOL ではない」と意識せざるを得ませんでした。しかし Swift では、`Bool` に `?` を付けるだけで三値になります。型宣言の簡潔さゆえに、設計上の問いが軽視されがちです。
+
+言語の表現力が向上しても、Bool は二値のための型であるという本質は変わりません。Optional Bool を使う前に、本当に適切かと検討しましょう。この一手間が、将来のバグや混乱を防ぎ、保守性の高いコードにつながるでしょう。
