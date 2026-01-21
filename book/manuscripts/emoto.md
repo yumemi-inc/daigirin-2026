@@ -13,9 +13,9 @@ class: content
 
 ## 問題設定
 
-プログラミング言語において、Bool 型は基本的なデータ型の１つです。true or false の二値を表現するシンプルな型です。また、モダンな言語は nil 安全を採用して、型レベルで nil を制御できるようになりました。この２つが混じると、コードの可読性が下り、バグの温床となります。
+プログラミング言語において、Bool 型は基本的なデータ型の１つです。二値を表現するシンプルな型です。また、モダンな言語は nil 安全を採用して、型レベルで nil を制御できるようになりました。この２つが混じると、コードの可読性が下り、バグの温床となりえます。
 
-本記事では、主に Swift を例にして、Optional な Bool の問題点を解説します。この問題は nil 安全を採用した他言語に共通する普遍的なトピックです。
+本記事では、主に Swift を例にして、Optional Bool の問題点を解説します。この問題は nil 安全を採用した他言語に共通する普遍的なトピックです。
 
 ### 対象読者
 
@@ -34,7 +34,7 @@ if isEnabled {
 
 Bool 型の利用用途は二状態の判定です、以上。
 
-...と締めくくりたいところですが、現実にはこのシンプルな Bool 型が拡張されて使われるケースが散見されます。それが本書のテーマである Optional Bool です。
+...と締めくくりたいところですが、現実にはこのシンプルな Bool 型が拡張されて使われるケースが散見されます。それが本記事のテーマである Optional Bool です。
 
 ## nil 安全がもたらす新たな課題
 
@@ -55,28 +55,28 @@ name = nil // 前述とは異なり nil を代入できる
 print(name.count) // name が　nil の場合があるので、ビルドエラーになる
 ```
 
-このようにプログラムを実行する前のビルド時に、コンパイラがチェックしてくれるのが nil 安全の本質です。
+このようにプログラムを実行する前に、ビルド時にコンパイラがチェックしてくれるのが nil 安全の本質です。
 
 ### Optional Bool の誕生
 
-漏れなく Bool も nil 安全の恩恵を受け、Optional を設定できます。
+漏れなく Bool も nil 安全の恩恵を受けるので Optional を設定できます。
 
 ```swift
 var isEnabled: Bool   // 通常 の Bool
-var isReady: Bool?    // Optional な Bool
+var isReady: Bool?    // Optional Bool
 ```
 
-`Bool?` 型で定義した時、その型の変数が扱える値は true, false, nil になります。
+`Bool?` 型で定義した時、その型の変数が扱える値は true、false そして nil になります。
 
-<center><strong>アイエエエエ！Bool が３つ？！３つナンデ！！</strong></center>
+<div style="text-align: center"><strong>アイエエエエ！Bool が３つ？！３つナンデ！！</strong></div>
 
-この第３の状態 nil をどう扱いますか？
+この第三の状態 nil をどう扱いますか？
 
 ## nil の扱いと Truthiness
 
-「Bool で nil は false として扱えばいい」と考える人もいるでしょう。しかし、なぜ nil を false と判定したのでしょうか。
+「Optional Bool の nil は false として扱えばいい」と考える人もいるでしょう。しかし、なぜ nil を false と判定したのでしょうか。
 
-この判断基準は、言語によって異なる場合があります。それが Truthiness という概念です。
+開発案件の仕様だからという理由もありますが、この判断基準は利用する言語によって異なる場合があります。それが Truthiness という概念です。
 
 ### Truthiness（真偽値性）とは
 
@@ -121,33 +121,32 @@ JavaScript と違い、空のリスト`[]`は「偽」です。
 [^js-falsy]: "MDN - Falsy", https://developer.mozilla.org/ja/docs/Glossary/Falsy
 [^python-falsy]: "Python Documentation - Truth Value Testing", https://docs.python.org/ja/3/library/stdtypes.html
 
-### 言語による違いがもたらす不安定性
+### 言語による違いがもたらす不安定さ
 
-言語によって Falsy の定義が異なるため、どの言語を利用しているかによって動作が変わります。また、コードを書くエンジニアがどの言語をバックボーンとするか、エンジニアの意識などで、Falsy に対する認識は異なります。これが nil の扱いを難しくしている要因の１つです。
+言語によって Falsy の定義が異なるため、どの言語を利用しているかによって動作が変わります。また、コードを書くエンジニアがどの言語をバックボーンとするか、エンジニアの特性により Falsy に対する扱いは無意識で異なります。これが nil の扱いを難しくしている要因の１つです。
 
 ## nil に意味を持たせる危険性
 
-さらに厄介なのは nil 状態に意味を持たせた場合です。たとえば、新機能があり、ユーザーに利用許諾を取ってから実行する場合を考えてみましょう。
+さらに厄介なのは nil 状態に意味を持たせた場合です。たとえば、ユーザーに新機能の利用許諾を取ってから実行する場合を考えてみましょう。
 
 ```swift
+// 利用許諾の状態を判定する
 var canUseNewFeature: Bool?
+
 if canUseNewFeature == nil {
-    // まだ利用許可をリクエストしていない
-    requestPermission()
+    // まだ利用許可をリクエストしていないので、リクエストする
 } else if canUseNewFeature == false {
     // ユーザーが拒否したのでエラーを表示する
-    showError()
 } else if canUseNewFeature == true {
     // 許可をもらったので、実行する
-    executeNewFeature()
 }
 ```
 
-このコードは、Bool に「まだリクエストしていない」という第３の状態を付けてしまいました。一見、言語仕様にしたがって Bool を Optional を利用して取り扱える状態数を拡張して効率的に見えますが、これは事故の元です。
+このコードは、言語仕様にしたがって Bool に Optional を利用して取り扱える状態数を拡張しました。Bool に「まだ許諾リクエストしていない」という第三の状態を付与しました。一見は天才的に見えますが、これはバグの卵です。
 
 ### Optional Bool の問題性
 
-この問題があるコード例は nil を利用許諾するという目的の初期値として利用しています。一般に Bool は二値という共通認識があるため、nil が初期状態（未リクエスト）という考えは、紐付きません。Bool は二値のための型です。nil に nil 以上の意味を持たせて、Bool を三値として扱うのは絶対にやめましょう。
+この問題があるコード例は true or false さらに nil を加えた Bool で利用許諾のリクエスト状態を表現しています。一般に Bool は二値という共通認識があるため、nil が未リクエスト状態という考えは、紐付きません。Bool は二値のための型です。nil に nil 以上の意味を持たせて、Bool を三値として扱うのは絶対に止めましょう。
 
 ### 三状態以上の適切なアプローチ
 
@@ -157,26 +156,24 @@ if canUseNewFeature == nil {
 enum PermissionState {
     /// すでに利用可能
     case authorized
-    
+        /// ユーザーに拒否されている
+    case denied
     /// まだ許可をリクエストしていない
     case notDetermined
-    
-    /// ユーザーに拒否されている
-    case denied
 }
 
 var permissionState: PermissionState = .notDetermined
 switch permissionState {
 case .notDetermined:
-    requestPermission()
+    // まだ利用許可をリクエストしていないので、リクエストする
 case .denied:
-    showError()
+    // ユーザーが拒否したのでエラーを表示する
 case .authorized:
-    executeNewFeature()
+    // 許可をもらったので、実行する
 }
 ```
 
-この enum で定義した PermissionState はコードを読めば、３つの状態が何を意味するか明確で、nil のような曖昧な状態がありません。さらに、switch はエディターの補完により、全ケースを補完してくれるので、コードミスを防ぐことができます。また、将来的に新しい状態（例: `.restricted`）を追加しやすいです。
+この enum で定義した PermissionState はコードを読めば、３つの状態が何を意味するか明確で、nil のような曖昧な状態はありません。さらに、switch はエディターの補完により、全ケースを補完してくれるので、コードミスを防ぐことができます。また、将来的に機能追加あれば、新しい状態を容易に追加できます。
 
 ## やむを得ず Optional Bool を使う場合
 
