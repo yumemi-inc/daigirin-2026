@@ -13,7 +13,7 @@ class: content
 
 ## 問題設定
 
-プログラミング言語において、Bool 型は基本的なデータ型の１つです。二値を表現するシンプルな型です。また、モダンな言語は nil 安全を採用して、型レベルで nil を制御できるようになりました。この２つが混じると、コードの可読性が下り、バグの温床となりえます。
+プログラミング言語において、Bool 型は基本的なデータ型の１つです。二値を表現するシンプルな型です。また、モダンな言語は nil 安全を採用して、型レベルで nil を制御できるようになりました。この２つが混じると、コードの可読性が下り、バグの温床になりえます。
 
 本記事では、主に Swift を例にして、Optional Bool の問題点を解説します。この問題は nil 安全を採用した他言語に共通する普遍的なトピックです。
 
@@ -23,7 +23,7 @@ class: content
 
 ## Bool 型とは
 
-Bool 型は、プログラミング言語において基本的な型の１つです。言語によって、true or false、0 or 1 など表現は異なりますが、本質は同じです。
+Bool 型は、プログラミング言語において基本的な型の１つです。言語によって、true or false、YES or NO または 0 or 1 など表現は異なりますが、本質は同じです。
 
 ```swift
 let isEnabled: Bool = true
@@ -193,7 +193,7 @@ var isEnabled: Bool?
 
 nil が true or false のどちらにも属さず、独立した状態として扱う必要がある場合です。この場合の Optional Bool は三状態になります。
 
-安心安全の guard を利用します。nil の場合は早期 return して、optional を取り除きます。変数を操作するときは Bool になているので、私はこの分岐が好みです。
+安心安全の guard を利用します。nil の場合は早期 return して、optional を取り除きます。変数を操作するときは Bool になっているので、私はこの分岐が好みです。
 
 ```swift
 guard let isEnabled else {
@@ -201,6 +201,7 @@ guard let isEnabled else {
     return; 
 }
 
+// Optional ではなく Bool として操作できる
 if isEnabled {
     print("true")
 } else {
@@ -232,9 +233,9 @@ if isEnabled == true {
 
 ### nil を false として扱う場合
 
-nil を false とみなす場合です。値は３つですが、意味としては２つです。Optional Bool を扱うときによくある分類パターンではないでしょうか。憎いが、許容できるレベル。
+nil を false とみなす場合です。値は３つですが、意味としては２つです。Optional Bool を扱うときによくある分類パターンではないでしょうか。憎いが、許容できるレベルです。
 
-`??` で表記される Nil 結合演算子（Nil-Coalescing Operator）で分岐してみました。かっこいい書き方ですね、これは好きな if 分岐の１つです。
+`??` で表記される Nil 結合演算子（Nil-Coalescing Operator）で分岐してみました。かっこいい書き方ですね、これは好きな if 分岐の書き方の１つです。
 
 ```swift
 if isEnabled ?? false {
@@ -295,7 +296,7 @@ if isEnabled == true {
 
 ### nil を true として扱う場合
 
-nil を true とみなす場合です。レアケースかもですが、オプトインとして設計する場合に起こりえます。状態が増えると、分岐条件も自由に増えていきます。
+nil を true とみなす場合です。レアケースかもですが、オプトインとして設計する場合に起こりえます。状態が増えると、意味の分類も自由に増えていきます。
 
 前述と同様に Nil 結合演算子で分岐できますが、右辺の値が逆になります。
 
@@ -346,7 +347,7 @@ if isEnabled != false {
 
 ## Optional Bool の設計指針
 
-前節から分岐処理が複雑になるため、Optional Bool は可能な限り排除しましょう。
+前節からも分かるように処理が複雑になるため、Optional Bool は可能な限り排除しましょう。
 
 ```swift
 // 避けるべき
@@ -374,7 +375,7 @@ enum UserConsent {
 
 ### API レスポンスでの対処
 
-外部 API から`Bool?`を受け取る場合は、境界で変換する。
+外部 API から`Bool?`を受け取る場合は、モデルで変換しましょう。
 
 ```swift
 struct APIResponse: Codable {
@@ -391,7 +392,7 @@ struct AppModel {
 }
 ```
 
-### ドキュメント化＆テスト
+### ドキュメント＆テスト
 
 やむを得ず Optional Bool を利用する場合は、必ずドキュメント化しましょう。また、テストを実装して、出来の悪い仕様の安全性を死守しましょう。
 
@@ -405,44 +406,47 @@ var notificationEnabled: Bool?
 
 ## まとめ
 
-Bool 型は true or false を表現する二値の型として設計されています。しかし、nil 安全な言語の登場により、Optional Bool という副作用で true、false or nil と意図しない三値の型が誕生しました。
+Bool 型は true または false を表現する二値の型として設計されています。しかし、nil 安全な言語仕様から Optional Bool という true、false そして nil の意図しない三値の Bool が誕生しました。
 
-Optional Bool を安易に使うと可読性とメンテナンス性を損ないます。nil は「値がない」という意味であり、それ以上の意味を持たせるべきではありません。なぜこの変数は Optional なのか、nil は何を意味するのか、という問いに明確に答えられない場合は、設計を見直すべきです。
+Optional Bool を安易に使うと可読性と保守性を損ないます。nil は「値がない」という意味であり、それ以上の意味を持たせるべきではありません。なぜこの変数は Optional なのか、nil は何を意味するのか、という問いに明確に答えられない場合は、設計を見直すべきです。
 
 また、第三の状態が必要な場合は Optional Bool に頼るのではなく、Enum を使って明示的に状態を定義しましょう。これにより、コードの意図が明確になり、将来的な拡張も容易になります。
 
 外部 API などから Optional Bool を受け取る場合は、早々に非 Optional 型に変換し、内部では通常の Bool 型として扱うことで、複雑性を避けましょう。この際、デフォルト値の意味を明確にドキュメント化することが重要です。
 
+以上、二値の Bool を Optional で三値するな高校 Swift 科の校則紹介でした。
+
 <hr class="page-break"/>
 
 ## おまけ「Objective-C の BOOL 型」
 
-Swift 以前の Objective-C では、Bool の扱いが現在とは大きく異なっていました。Objective-C の BOOL は独立した型ではなく、C 言語の型に対するエイリアスとマクロ定義でした。現在の定義は次のようになっています。
+Swift 以前の Objective-C では、Bool の扱いが Swift と大きく異なっています。Objective-C の BOOL は独立した型ではなく、C 言語の型に対するエイリアスとマクロ定義でした。
 
-```objc
+```c
 typedef bool BOOL;
 #define YES true
 #define NO  false
 ```
 
-古いバージョンの実装では次のように定義されていました。
+この true や false はマクロ、C23 からはキーワードとして定義されています [^c-bool-C99]。また、Objective-C の古いバージョンの実装では次のように数値で直接定義されていました。
 
-```objc
+```c
 typedef signed char BOOL;
 #define YES (BOOL)1
 #define NO  (BOOL)0
 ```
 
-この定義から分かるように、BOOL は実質的に signed char（-128 から 127 の整数値）であり、YES と NO はそれぞれ 1 と 0 を表すマクロに過ぎません [^objc-bool]。これは、true と false という明確な論理値をもつ Swift の Bool 型とは根本的に異なります。
+これらの定義から分かるように、BOOL は実質的に signed char（-128 から 127 の整数値）であり、YES と NO はそれぞれ 1 と 0 を表すマクロに過ぎません [^objc-bool]。これは、true と false という明確な論理値をもつ Swift の Bool 型とは根本的に異なります。
 
+[^c-bool-C99]: "Standard library header <stdbool.h> (C99)(deprecated in C23)", https://en.cppreference.com/w/c/header/stdbool.html
 [^objc-bool]: "Objective-C Runtime / Boolean Values", https://developer.apple.com/documentation/objectivec/boolean-values
 
 ### signed char であることの問題
 
-Objective-C の母体である C 言語は「0 ならば false、0 以外ならば true」として判定します。そのため、BOOL が signed char として定義されていることで、いくつかの問題が発生します。
+Objective-C の母体である C 言語は「0 のとき false、0 でないとき true」として判定します。そのため、BOOL が signed char として定義されていることで、いくつかの問題が発生します。
 
 ```objc
-// 問題例1: 0以外の値がYESとして扱われる
+// 問題例1: 0 ではない値が YES として扱われる
 BOOL result = 2;  // YES として扱われるが、YES (1) とは異なる
 if (result == YES) {  // false！
     NSLog(@"This won't be executed");
@@ -453,7 +457,7 @@ BOOL overflow = 256;  // signed char の範囲外
 // 256 は 8 ビットでオーバーフローして 0 (NO) になる
 ```
 
-BOOL の値が 1 でも 2 でも 255 だろうが、0 でなければすべて真として扱われます。このため、BOOL 型の比較では `==` を使わず、直接条件式で評価することも推奨されていました。
+BOOL の値が 1 でも 2 でも 0 でなければ、すべて真として扱われます。このため、BOOL 型の比較では `==` を使わず、条件式で直接評価することも推奨されていました。
 
 ```objc
 // 良い例
@@ -469,11 +473,11 @@ if (result == YES) {  // result が 2 の場合、期待通りに動作しない
 }
 ```
 
-### Optional な BOOL の扱い
+### Optional BOOL の扱い
 
-Objective-C には Swift のような Optional 型の概念がありません。nullable / nonnull という annotations（注釈）はありますが、 静的解析を補助するもので、nil 安全ではありません。
+Objective-C には Swift のような Optional 型の概念がありません。nullable / nonnull という annotations はありますが、 静的解析を補助するもので、完全な nil 安全ではありません。
 
-Optional BOOL を表現するには別の方法が必要でした。API のレスポンスなどで nil を考慮する場合は、NSNumber を経由して BOOL を扱います。
+Optional BOOL を表現するには別の方法が必要でした。API のレスポンスなどで nil を考慮する場合は、NSNumber を経由して BOOL を扱いました。
 
 ```objc
 // JSON: { "is_ready": true } または { } (キー自体がない)
@@ -494,14 +498,14 @@ if (isReadyNum != nil && isReadyNum != (id)[NSNull null]) {
 }
 ```
 
-この方法では、値の存在を NSNumber オブジェクトの nil チェックで判定し、値が存在する場合にのみ BOOL 値を取り出します。Swift の `Bool?` と同様に三値論理（nil、true、false）を扱いますが、Objective-C では NSNumber という別の型を経由する必要があるます。また、nil チェックと BOOL への変換を明示的に書く必要があるため、三値を扱っていることを開発者が意識せざるを得ない設計になっています。
+この方法では、値の存在を NSNumber オブジェクトの nil チェックで判定し、値が存在する場合にのみ BOOL 値を取り出します。Swift の `Bool?` と同様に三値論理（nil、true、false）を扱いますが、Objective-C では NSNumber という別の型を経由しました。nil チェックと BOOL への変換を明示的に書く必要があるため、三値を扱っていることを開発者が意識せざるを得ない設計になっています。
 
 ### Objective-C から学ぶこと
 
-Objective-C の BOOL 型の歴史は、型システムの重要性を教えてくれます。単なるエイリアスやマクロではなく、Swift のように言語レベルで適切に設計された型を使用することで、多くのバグを未然に防げます。
+Objective-C の BOOL 型の歴史は、型システムの重要性を教えてくれます。単なるエイリアスやマクロではなく、Swift のように言語レベルで適切に設計された型を利用することで、多くのバグを未然に防げます。
 
-しかし、型システムが進化したからといって、設計の問題が自動的に解決されるわけではありません。Objective-C では NSNumber を経由することで三値論理の複雑さが可視化されていました。一方、Swift では `Bool?` と書くだけで簡単に三値論理を作れてしまいます。この「手軽さ」が逆に危険なのです。
+型システムが進化したからといって、設計の問題が自動的に解決されるわけではありません。Objective-C では NSNumber を経由することで三値論理の複雑さが可視化されていました。一方、Swift では `Bool?` と書くだけで簡単に三値論理を作れてしまいます。この「手軽さ」が逆に危険なのです。
 
 Objective-C 時代、開発者は NSNumber 経由の煩雑なコードを書くことで「これは普通の BOOL ではない」と意識せざるを得ませんでした。しかし Swift では、`Bool` に `?` を付けるだけで三値になります。型宣言の簡潔さゆえに、設計上の問いが軽視されがちです。
 
-言語の表現力が向上しても、Bool は二値のための型であるという本質は変わりません。Optional Bool を使う前に、本当に適切かと検討しましょう。この一手間が、将来のバグや混乱を防ぎ、保守性の高いコードにつながるでしょう。
+言語の表現力が向上しても、Bool は二値であるという本質は変わりません。Optional Bool を使う前に、本当に適切かと検討しましょう。この一手間が、将来のバグや混乱を防ぎ、保守性の高いコードにつながるでしょう。
