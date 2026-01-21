@@ -197,8 +197,8 @@ nil が true or false のどちらにも属さず、独立した状態として�
 
 ```swift
 guard let isEnabled else {
-    print("nil"); 
-    return; 
+    print("nil")
+    return
 }
 
 // Optional ではなく Bool として操作できる
@@ -249,8 +249,8 @@ if isEnabled ?? false {
 
 ```swift
 guard isEnabled ?? false else {
-    print("false or nil");
-    return;
+    print("false or nil")
+    return
 }
 print("true")
 ```
@@ -312,8 +312,8 @@ guard でも書き直せます。
 
 ```swift
 guard isEnabled ?? true else {
-    print("false");
-    return;
+    print("false")
+    return
 }
 print("true or nil")
 ```
