@@ -14,8 +14,13 @@ module.exports = {
     // はじめに
     'preface.md',
     // 各章の原稿
+<<<<<<< HEAD
     'sample_chapter.md', // サンプル用ページです。執筆時は削除してください。
     'solana-nft-complete-guide.md',
+=======
+    'emoto.md',
+
+>>>>>>> 066950d (config修正)
     // 著者紹介
     'authors.md',
     // 奥付
