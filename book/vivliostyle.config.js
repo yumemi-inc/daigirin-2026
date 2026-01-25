@@ -14,7 +14,7 @@ module.exports = {
     // はじめに
     'preface.md',
     // 各章の原稿
-    'sample_chapter.md', // サンプル用ページです。執筆時は削除してください。
+    'emoto.md',
 
     // 著者紹介
     'authors.md',
