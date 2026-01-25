@@ -9,7 +9,7 @@ class: content
 
 # おお我らが二値の Bool を Optional で三値するな高校
 
-こんにちは、二値の Bool を Optional で三値するな高校から来ました。今回は、本校の校則を紹介します。
+こんにちは、二値の Bool を Optional で三値するな高校から来ました。今回は、本校を紹介します。
 
 ## 問題設定
 
@@ -414,7 +414,7 @@ Optional Bool を安易に使うと可読性と保守性を損ないます。nil
 
 外部 API などから Optional Bool を受け取る場合は、早々に非 Optional 型に変換し、内部では通常の Bool 型として扱うことで、複雑性を避けましょう。この際、デフォルト値の意味を明確にドキュメント化することが重要です。
 
-以上、二値の Bool を Optional で三値するな高校 Swift 科の校則紹介でした。
+以上、二値の Bool を Optional で三値するな高校の紹介でした。
 
 <hr class="page-break"/>
 
