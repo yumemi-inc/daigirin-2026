@@ -1,6 +1,4 @@
 {
-  "enabledMcpjsonServers": ["textlint"],
-  "enableAllProjectMcpServers": true,
   "permissions": {
     "allow": [],
     "deny": [
@@ -28,5 +26,9 @@
       "Bash(mongod:*)",
       "mcp__supabase__execute_sql"
     ]
-  }
+  },
+  "enableAllProjectMcpServers": true,
+  "enabledMcpjsonServers": [
+    "textlint"
+  ]
 }
