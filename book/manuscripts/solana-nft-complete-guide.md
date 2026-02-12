@@ -168,7 +168,7 @@ Ethereum と Solana はどちらもアカウントモデルですが、処理速
 
 **年間 1,000 万 tx 超のような大規模でない限り、多くのケースで「パブリック利用」が合理的です。** 中小規模で L2 や自前チェーンを構築するのは、「コンビニに行くためにプライベートジェットを買う」ような過剰投資と言えます。
 
-### 自前チェーンの罠：「俺が正義」のパラドックス
+### 自前チェーンの罠
 
 プライベートチェーンのノード管理者が全員「身内」である場合、**自社が発行したデータを、自社のサーバーで『正しい』と言っているだけ** になります。これは RDBMS + デジタル署名と本質的に変わりません。ブロックチェーンの核心的価値である「第三者による検証」が機能しないのです。
 
@@ -210,14 +210,6 @@ Solana のデータモデルは、**アカウント（状態）** と **トラ�
 ![USDC Mint アカウントの実際のデータ例](./images_solana-nft-complete-guide/account-fields.png)
 *図５：USDC Mint アカウントの実際のデータを例に、各フィールドの意味を解説。owner はデータ変更権限を持つ「プログラム」を指す。*
 
-| フィールド | サイズ | 役割 |
-| :-- | :-- | :-- |
-| **key** | 32 バイト | アカウントを特定する公開鍵（住所） |
-| **owner** | 32 バイト | data の変更権限を持つ **プログラム** のアドレス |
-| **lamports** | 8 バイト | SOL 残高（1 SOL = 10 億 lamports） |
-| **data** | 可変長（最大 10MB） | アカウント種類ごとに異なる本体データ |
-| **executable** | 1 ビット | 実行可能なプログラムかどうか |
-
 > **💡ポイント:** アカウントフィールドの `owner` と、ATA における「トークンの所有者（ウォレット）」は別の概念です。owner は「data の書き換え権限を持つプログラム」、所有者は「data 内に記録された人間のウォレットアドレス」です。
 
 ---
@@ -230,17 +222,7 @@ Solana のデータモデルは、**アカウント（状態）** と **トラ�
 ![5 種類のアカウント一覧](./images_solana-nft-complete-guide/five-account-types.png)
 *図６：5 種類のアカウント一覧。owner（data の管理プログラム）、data 内容、executable、key の生成方法がそれぞれ異なる*
 
-**① ウォレット（Wallet Account）：** SOL 残高を保持。owner は System Program、data は空（0 バイト）。残高は lamports フィールドで管理。
-
-**② Mint Account：** トークンの「定義書」。発行数（supply）、小数桁数（decimals）、発行権限者を記録。owner は Token Program、data は 82 バイト固定。USDC の Mint アドレスは世界に 1 つだけ存在します。
-
-**③ ATA（Associated Token Account）：** 「特定のウォレットが特定のトークンを保管するための口座」。Mint アドレスと owner アドレスから PDA（Program Derived Address）として決定論的に導出。owner は Token Program、data は 165 バイト。
-
 > **💡ポイント:** 銀行で言えば、Mint は「通貨の定義（円、ドル等）」、ATA は「特定の人の、特定の通貨の口座」に相当します。
-
-**④ Metadata PDA：** トークンの名前、シンボル、画像 URL、作成者情報などの付加情報を保存。owner は Metaplex Program（NFT エコシステムの事実上の標準）。key は `["metadata", Program ID, Mint Address]` の 3 つのシード値から PDA として導出。
-
-**⑤ Program Account：** 実行可能なコード本体を保持。executable が `true` になる唯一のアカウント種別。
 
 > **💡ポイント:** PDA（Program Derived Address）は秘密鍵を持たないアドレスです。複数の値からハッシュ計算で算出され、同じ入力からは常に同じアドレスが得られます。「この組み合わせなら、このアドレスにある」と計算で特定できるため、チェーン上を探し回る必要がありません。
 
@@ -282,14 +264,6 @@ NFT の「唯一性」は、技術的には 2 つの条件で実現されてい�
 
 ![各 Program の役割とアドレス](./images_solana-nft-complete-guide/programs.png)
 *図８：各 Program の役割とアドレス。SOL は Token Program を経由しないネイティブ通貨で、USDC 等のトークンは Token Program が管理する*
-
-| Program | 役割 |
-| :-- | :-- |
-| **System Program** | アカウント作成、SOL 送金（OS レベル） |
-| **Token Program** | Mint 初期化、トークン発行・送金 |
-| **ATA Program** | ATA の決定論的作成（便利なラッパー） |
-| **Metaplex Program** | NFT 名前・画像 URL・作成者情報の管理 |
-| **Sysvar Rent** | アカウント維持に必要な預託金の計算式 |
 
 ### トランザクションの内部構造
 
