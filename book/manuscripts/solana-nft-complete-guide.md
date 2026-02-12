@@ -228,13 +228,13 @@ Solana のデータモデルは、**アカウント（状態）** と **トラ�
 ## 5 種類のアカウントとその役割
 
 ![5 種類のアカウント一覧](./images_solana-nft-complete-guide/five-account-types.png)
-*図６：5 種類のアカウント一覧。Owner（data の管理プログラム）、data 内容、executable、key の生成方法がそれぞれ異なる*
+*図６：5 種類のアカウント一覧。owner（data の管理プログラム）、data 内容、executable、key の生成方法がそれぞれ異なる*
 
 **① ウォレット（Wallet Account）：** SOL 残高を保持。owner は System Program、data は空（0 バイト）。残高は lamports フィールドで管理。
 
 **② Mint Account：** トークンの「定義書」。発行数（supply）、小数桁数（decimals）、発行権限者を記録。owner は Token Program、data は 82 バイト固定。USDC の Mint アドレスは世界に 1 つだけ存在します。
 
-**③ ATA（Associated Token Account）：** 「特定のウォレットが特定のトークンを保管するための口座」。Mint アドレスと Owner アドレスから PDA（Program Derived Address）として決定論的に導出。owner は Token Program、data は 165 バイト。
+**③ ATA（Associated Token Account）：** 「特定のウォレットが特定のトークンを保管するための口座」。Mint アドレスと owner アドレスから PDA（Program Derived Address）として決定論的に導出。owner は Token Program、data は 165 バイト。
 
 > **💡ポイント:** 銀行で言えば、Mint は「通貨の定義（円、ドル等）」、ATA は「特定の人の、特定の通貨の口座」に相当します。
 
