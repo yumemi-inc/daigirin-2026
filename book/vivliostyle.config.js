@@ -18,6 +18,8 @@ module.exports = {
     'solana-nft-complete-guide.md',
     'solana-swap-complete-guide.md',
     'solana-anchor.md',
+    'emoto.md',
+
     // 著者紹介
     'authors.md',
     // 奥付
