@@ -24,9 +24,9 @@ class: exclude-hashira
 
 <section class="colophon">
 
-## ゆめみ大技林 <!--'23-->
+## ゆめみ大技林 '26
 
-<!--2023年5月15日--> 初版
+2026年4月11日 初版
 
 ---
 
@@ -37,11 +37,11 @@ class: exclude-hashira
   </div>
   <div class="colophon-row">
     <div class="colophon-label">表紙</div>
-    <div class="colophon-value"><!-- 吉森由之助 --></div>
+    <div class="colophon-value">吉森由之助</div>
   </div>
   <div class="colophon-row">
     <div class="colophon-label">印刷</div>
-    <div class="colophon-value"><!-- 日光企画 --></div>
+    <div class="colophon-value">日光企画</div>
   </div>
   <div class="colophon-row">
     <div class="colophon-label">連絡先</div>
@@ -53,7 +53,7 @@ class: exclude-hashira
 
 <!-- textlint-disable ja-technical-writing/ja-no-mixed-period -->
 
-© <!--2023--> ゆめみ大技林製作委員会
+© 2026 ゆめみ大技林製作委員会
 
 <!-- textlint-enable: ja-technical-writing/ja-no-mixed-period -->
 
