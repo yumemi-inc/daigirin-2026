@@ -617,7 +617,7 @@ spin の結果はオンチェーンの `msg!()` マクロで記録されます�
 
 ## 参考リンク
 
-[^anchor-docs]: Anchor 公式ドキュメント https://www.anchor-lang.com/
-[^spl-token-docs]: SPL Token ドキュメント https://spl.solana.com/token
-[^solana-playground]: Solana Playground https://beta.solpg.io
-[^adventure-slot-github]: Adventure Slot GitHub https://github.com/Masa1984a/solana-adventure-slots
+- Anchor 公式ドキュメント <span class="footnote">https://www.anchor-lang.com/</span>
+- SPL Token ドキュメント <span class="footnote">https://spl.solana.com/token</span>
+- Solana Playground <span class="footnote">https://beta.solpg.io</span>
+- Adventure Slot GitHub <span class="footnote">https://github.com/Masa1984a/solana-adventure-slots</span>
