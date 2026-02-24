@@ -19,6 +19,7 @@ module.exports = {
     'solana-swap-complete-guide.md',
     'solana-anchor.md',
     'emoto.md',
+    'kishimoto01.md',
 
     // 著者紹介
     'authors.md',
