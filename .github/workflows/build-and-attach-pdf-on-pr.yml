@@ -70,4 +70,4 @@ jobs:
           repository: ${{ github.repository }}
           issue-number: ${{ github.event.pull_request.number }}
           body: |
-            ::page_facing_up: [PDF](${{ env.ARTIFACT_URL }}) が作成されました
+            :page_facing_up: [PDF](${{ env.ARTIFACT_URL }}) が作成されました
