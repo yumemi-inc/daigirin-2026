@@ -13,3 +13,7 @@ class: exclude-hashira
 アソシエイト・ディレクター
 武蔵工業大学環境情報学部卒。AIH（アクセンチュア・イノベーションセンター北海道）にて、クライアント/委託業務/弊社内業務の効率化・高度化をアーキテクトとして支援。
 Zenn（https://zenn.dev/myoshida2）にてAI Agent/Web3関連記事を多数執筆。
+
+### ふぁ（FlutterアニメーションにおけるAnimationControllerの考え方）
+
+25卒Flutterエンジニア。OSSが好き。Twitter: [@faa0311](https://x.com/faa0311)
