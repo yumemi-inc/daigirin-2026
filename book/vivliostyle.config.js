@@ -20,6 +20,7 @@ module.exports = {
     'solana-anchor.md',
     'emoto.md',
     'kishimoto01.md',
+    'harutiro.md',
 
     // 著者紹介
     'authors.md',
