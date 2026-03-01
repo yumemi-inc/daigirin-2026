@@ -1,5 +1,5 @@
 module.exports = {
-  title: 'ゆめみ大技林 ' /*\'23'*/,
+  title: "ゆめみ大技林 '26",
   author: 'ゆめみ大技林製作委員会',
   language: 'ja',
   size: 'A5',
@@ -16,6 +16,8 @@ module.exports = {
     // 各章の原稿
     'sample_chapter.md', // サンプル用ページです。執筆時は削除してください。
     'solana-nft-complete-guide.md',
+    'solana-swap-complete-guide.md',
+    'solana-anchor.md',
     'emoto.md',
     'kishimoto01.md',
     'kishimoto02.md',
