@@ -17,6 +17,9 @@ module.exports = {
     'sample_chapter.md', // サンプル用ページです。執筆時は削除してください。
     'solana-nft-complete-guide.md',
     'emoto.md',
+    'kishimoto01.md',
+    'kishimoto02.md',
+    'kishimoto03.md',
 
     // 著者紹介
     'authors.md',
