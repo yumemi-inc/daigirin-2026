@@ -22,6 +22,7 @@ module.exports = {
     'kishimoto01.md',
     'kishimoto02.md',
     'yuuuka.md',
+    're-tetris.md',
 
     // 著者紹介
     'authors.md',
