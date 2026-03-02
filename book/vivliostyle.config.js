@@ -21,6 +21,7 @@ module.exports = {
     'emoto.md',
     'kishimoto01.md',
     'kishimoto02.md',
+    'yuuuka.md',
 
     // 著者紹介
     'authors.md',
