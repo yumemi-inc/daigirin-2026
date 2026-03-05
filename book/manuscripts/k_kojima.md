@@ -219,6 +219,21 @@ yarnは R.I.P. とのことです。 https://fabricmc.net/2025/10/31/obfuscation
 今からmoddingを始めるのであれば、mojmapを使っていくのが今後のためになるかと思われます。
 フレークワークによって対応状況は異なります。
 
+リフレクションでprivateフィールドやメソッドを呼び出すことはよくやられていたのですが、ここの難読化の対応を間違えると開発環境では動作するのに実際の環境では動作しないといったことが起こります。
+最近はMixinで対応することが増えたのでリフレクションを触る機会は減ったのですが、以前として手軽なテクニックではあります。
+
+どのフレームワークもGradle用のプラグインを提供しています。
+そのプラグインを導入することでmoddingを始められます。
+公式が提供しているexampleから始めたり、GitHubに公開されているModのビルド設定を真似するのがよいです。
+細かい点を直そうとするとPluginの非常に細かい部分を確認したり設定を色々変更する必要が出てくることがあります。
+こだわりは程々にしつつ、開発しやすい環境構築が大事です。
+
+JVMで動く言語であれば理論上どれでもModに使用できます。
+最近はKotlinで書かれる作者が増えたように思いますが、まだまだJavaも使われています。
+Modのフレームワークが共通で公式でサポートしているのはJavaだけですし、動作確認もJavaだけだろうと思われます。
+別言語で書いていきたいと考えている人は、その言語で動かすにはどのような仕組みが必要なのか調べるところから始めることになります。
+Fabricは公式がKotlinに対するサポートを出しているので、手取り早く始めるにはちょうどいいです。
+
 ### Forgeの仕組み
 
 Forge では、 Minecraft の Jar ファイルをでコンパイルして一度ソースコードに変換し、そこにパッチを当て、パッチされたコードをコンパイルしています。
@@ -234,6 +249,8 @@ Forgeはイベントシステムが豊富に実装されていることが特徴
 Forgeというフレームワークが提供している機能なため、ある程度後方互換性があり、バージョンアップした際に壊れにくいのも特徴です。
 あらかじめ用意されているイベントは数多く、ほとんどの需要は満たせます。
 時折イベントでは手が届かない部分を変更したいことがあります。その際にはASMによる動的な変更をしたり、Mixinのシステムを使ったりすることで対応します。Mixinは主にFabricで使われているため、Fabricの項で説明します。
+あまりMinecraft自体のシステムに介入することは多くはないのですが、Mixin以前と比べて介入のハードルが劇的に下がっています。
+昔と比べて非常にmoddingしやすくなったなと思います。
 
 ### Fabricの仕組み
 
@@ -275,7 +292,7 @@ public class IngredientMixin implements FabricIngredient {
 }
 ```
 
-https://github.com/FabricMC/fabric-api/blob/1bd9c6c09eeb8d118a5aefe10253da18832eaf8c/fabric-recipe-api-v1/src/main/java/net/fabricmc/fabric/mixin/recipe/ingredient/IngredientMixin.java より引用し、改変
+(https://github.com/FabricMC/fabric-api/blob/1bd9c6c09eeb8d118a5aefe10253da18832eaf8c/fabric-recipe-api-v1/src/main/java/net/fabricmc/fabric/mixin/recipe/ingredient/IngredientMixin.java より引用し、改変)
 
 このコードはIngredientのクラスにおける、Codecを変換するコードを挿入しているものです。
 CodecはJSONなどをSerialize, Deserializeするための定義です。
@@ -283,7 +300,26 @@ CodecはJSONなどをSerialize, Deserializeするための定義です。
 ほかにも、 `FabricIngredient` をimplementすることで `Ingredient implements FabricIngredient` と定義しています。
 このようにすでにあるクラスを変更できるのがMixinの強みです。
 
+FabricでModをロードする仕組みはFabric Loaderが担っています。
+Fabric LoaderはMinecraftへのバージョン依存がないように作られており、どのMinecraftのバージョンでも同じLoaderのバージョンを使えるため、バージョンごとの動作の差異が起こりにくいのが特徴です。
+ForgeなどではForgeの依存関係としてLauncherのバージョンが決まっているため、Forgeのバージョンが上がるとModの読み込みやライブラリの読み込みに失敗するということが起きることがありました。
+
+Fabricでは難読化のマッピングとしてmojmapとyarnに対応しています。公式の例ではyarnが使われていることが多い印象です。
+
 ### NeoForgeの仕組み
+
+NeoForgeはForgeからフォークされたプロジェクトです。そのためModのロードの仕組みはForgeとほぼ同じです。
+開発が活発であり、最近ではNeoForgeとFabricのみに対応しているmodも増えたと思います。
+フォークなのでベースは同じですが、NeoForgeになってから改良された部分も多く、Forgeと同じ方法ではうまくいかない部分も多くなってきています。
+
+### クロスフレームワーク
+
+Architecturyというフレームワーク(言葉の選びが適切ではないかもしれませんが、ここではフレームワークと呼称します)があります。
+Architecturyでは1つのコードベースから、各種フレームワークに対応したビルドができます。
+また、Architectury自身もAPIを提供しており、各環境で実装を共通化するための仕組みを備えています。
+もちろんArchitecturyが提供している範囲を超えるものは各フレームワークごとのコードを用意する必要がありますが、複数の環境に対応するための手段として有用です。
+
+Fabricに近いGradleプラグインを提供しているので、プラグインの設定の手間を減らすという意味でも効果があるかもしれません。
 
 ## フレームワークごとの違い
 
