@@ -25,6 +25,16 @@ class: content
 
 **第 3 部：卒業証書 NFT の実装** では、実際のシステムアーキテクチャと、TypeScript の実装コードを理論と照らし合わせて解読します。
 
+### この章で得られること
+
+- ブロックチェーンの本質的価値（「第三者による検証」）の理解
+- BTC（UTXO モデル）と Ethereum/Solana（アカウントモデル）のデータモデルの違い
+- パブリックチェーン・プライベートチェーン・独自 L2 の選定基準とコスト比較
+- Solana の二層構造（アカウントとトランザクション）と 5 つのフィールドの理解
+- FT と NFT の違いが「Mint の設定値（supply=1, decimals=0）」だけであること
+- NFT 発行トランザクションの 5 つの Instruction の設計と実装
+- TypeScript + Solana SDK による卒業証書 NFT システムの実装
+
 > 本章のソースコードは GitHub に公開しています。
 > GitHub: 卒業証書 NFT システムのソースコード <span class="footnote">https://github.com/Masa1984a/graduation-certificate-nft-system</span>
 

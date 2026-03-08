@@ -23,13 +23,6 @@ class: content
 
 <!-- textlint-enable spellcheck-tech-word -->
 
-> 本章のソースコードは GitHub に公開しています。
-> GitHub: Solana DEX AMM Swap <span class="footnote">https://github.com/Masa1984a/Solana-DEX-AMM.git</span>
-
-<!-- TODO: 画像を配置してください -->
-![システム概要](./images_solana-swap-complete-guide/system-overview.png)
-*図１：CLI から Solana Network 上の Raydium CLMM Pool を経由して SOL → USDC スワップを実行する全体像*
-
 ### 本章の構成
 
 本チャプターは大きく 3 部構成です。
@@ -49,6 +42,13 @@ class: content
 - Raydium CLMM Pool のアカウント構造（Vault、Pool State PDA、Tick Array）
 - SDK の「非標準 ATA」問題と、ウォレットアプリとの互換性問題への対処法
 - Mainnet 実行ログに基づく具体的なトランザクション解析
+
+> 本章のソースコードは GitHub に公開しています。
+> GitHub: Solana DEX AMM Swap <span class="footnote">https://github.com/Masa1984a/Solana-DEX-AMM.git</span>
+
+<!-- TODO: 画像を配置してください -->
+![システム概要](./images_solana-swap-complete-guide/system-overview.png)
+*図１：CLI から Solana Network 上の Raydium CLMM Pool を経由して SOL → USDC スワップを実行する全体像*
 
 ---
 
