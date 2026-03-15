@@ -16,19 +16,15 @@ New Relic はアプリケーションの監視・分析を行うプラットフ�
 
 検索画面では、テキストを入力すると GitHub API を通じてリポジトリを検索します。検索結果はスター数・フォーク数・更新日時などでソートでき、ソートボタンをタップするとボトムシートから並び順を選べます。一覧を下にスクロールすると追加で読み込まれる無限スクロールに対応しています。各リポジトリの行をタップすると詳細画面に遷移し、ハートアイコンをタップするとお気に入りに登録できます。
 
-<img src="./images_macneko/serach_result.png" width=320>
-
 お気に入り画面は、登録したリポジトリの一覧を表示します。SharedPreferences で永続化されているため、アプリを終了しても内容は保持されます。
-
-<img src="./images_macneko/favorite.png" width=320>
 
 リポジトリ詳細画面では、スター数・フォーク数・ウォッチャー数・使用言語といった詳細情報を確認できます。
 
-<img src="./images_macneko/repository_detail.png" width=320>
-
 デバッグ画面は、iOS Simulator または Android Emulator でアプリを起動した際に左 Shift+D キーで開く隠しページです。強制クラッシュや非同期例外などのエラーを意図的に発生させるボタンが並んでおり、New Relic の動作確認に使います。
 
-<img src="./images_macneko/debug.png" width=320>
+| 検索 | お気に入り | リポジトリ詳細 | デバッグ |
+| --- | --- | --- | --- |
+| <img src="./images_macneko/serach_result.png" width=150> | <img src="./images_macneko/favorite.png" width=150> | <img src="./images_macneko/repository_detail.png" width=150> | <img src="./images_macneko/debug.png" width=150> |
 
 技術スタックは状態管理に Riverpod、画面遷移に Go Router、モデル定義に Freezed を採用しています。
 
