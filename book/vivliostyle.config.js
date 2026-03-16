@@ -21,6 +21,7 @@ module.exports = {
     'emoto.md',
     'kishimoto01.md',
     'kishimoto02.md',
+    'kishimoto03.md',
     'kitaji0306-secops.md',
     'yuuuka01.md',
     'yuuuka02.md',
@@ -30,7 +31,7 @@ module.exports = {
     'usami-jj.md',
     'harutiro.md',
     'kawashima.md',
-
+    
     // 著者紹介
     'authors.md',
     // 奥付
