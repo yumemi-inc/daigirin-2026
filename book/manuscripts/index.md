@@ -28,5 +28,6 @@ class: exclude-hashira
 1. [AndroidでiBeacon(BLEビーコン)の送受信をしてみる | 牧野遥斗](harutiro.html)
 1. [Flutter アプリに New Relic を導入してモバイル監視・分析を始める | 横田孝次郎](yokota.html)
 1. [プラットフォームの境界線を見つけよう | 川島慶之](kawashima.html)
+1. [著者紹介](authors.html)
 
 </nav>
