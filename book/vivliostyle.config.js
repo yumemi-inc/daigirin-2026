@@ -28,6 +28,7 @@ module.exports = {
     'akatsuki174.md',
     'k_kojima.md',
     'usami-jj.md',
+    'ad_motsu.md',
 
     // 著者紹介
     'authors.md',
