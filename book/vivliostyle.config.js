@@ -13,8 +13,8 @@ module.exports = {
     'index.md',
     // はじめに
     'preface.md',
+
     // 各章の原稿
-    'sample_chapter.md', // サンプル用ページです。執筆時は削除してください。
     'solana-nft-complete-guide.md',
     'solana-swap-complete-guide.md',
     'solana-anchor.md',
@@ -33,7 +33,7 @@ module.exports = {
     'yokota.md',
     'kawashima.md',
     'ad_motsu.md',
-    
+
     // 著者紹介
     'authors.md',
     // 奥付
