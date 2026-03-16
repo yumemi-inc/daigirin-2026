@@ -15,24 +15,33 @@ module.exports = {
     'preface.md',
 
     // 各章の原稿
+    // Web3 / ブロックチェーン
     'solana-nft-complete-guide.md',
     'solana-swap-complete-guide.md',
     'solana-anchor.md',
-    'emoto.md',
+
+    // 生成AI / AI活用
     'kishimoto01.md',
     'kishimoto02.md',
     'kishimoto03.md',
-    'kitaji0306-secops.md',
     'yuuuka01.md',
     'yuuuka02.md',
-    'yuki.md',
-    'akatsuki174.md',
+    'ad_motsu.md',
+
+    // 開発基盤・設計
+    'emoto.md',
     'k_kojima.md',
     'usami-jj.md',
+
+    // セキュリティ
+    'kitaji0306-secops.md',
+
+    // モバイル / クライアント
+    'yuki.md',
+    'akatsuki174.md',
     'harutiro.md',
     'yokota.md',
     'kawashima.md',
-    'ad_motsu.md',
 
     // 著者紹介
     'authors.md',
