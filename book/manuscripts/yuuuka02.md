@@ -9,7 +9,7 @@ class: content
 
 # AWSクレジットでKiroを使いまくろう
 
-こんにちは、PyLadies Tokyoのyuuukaです！Pythonのライブラリ検証に続きまして、今度はPythonではなく、流行りのAI IDEのKiroについて書きます。
+こんにちは、PyLadies Tokyoのyuuukaです。Pythonのライブラリ検証に続きまして、今度はPythonではなく、流行りのAI IDEのKiroについて書きます。
 
 最近「仕様駆動開発（SDD: Spec-Driven Development）」という言葉をよく聞くようになりました。Kiroはまさにこの仕様駆動開発をIDEのUIでそのまま実践できるツールなのですが、実はIAM Identity Center経由でアカウントを作成すると「Kiro Enterprise」と呼ばれる利用形態になり、個人利用では使えない管理・可視化機能が利用できるようになります。さらに、AWSのクレジットが適用されるため、手持ちのAWSクレジットがあれば無料でサブスクリプションプランを使うことができるのです。
 
@@ -71,7 +71,7 @@ Kiroは、AWSが2025年7月にPublic Previewとして公開し、同年11月17�
 
 **VSCodeベース**: Code OSSベースなので、VSCodeの設定や拡張機能（Open VSX互換）をインポートできます。
 
-**モデル選択**: デフォルトではAutoエージェント（Sonnet 4.5等の複数のフロンティアモデルを組み合わせたもの）が使用されますが、Claude Sonnet 4、Sonnet 4.5、Haiku 4.5、Opus 4.5、Opus 4.6を個別に指定することも可能です。Autoは品質・レイテンシ・コストのバランスが最適化されており、個別モデルを指定するとクレジット消費量が変わります。
+**モデル選択**: デフォルトではAutoエージェント（Sonnet 4.6等の複数のフロンティアモデルを組み合わせたもの）が使用されますが、Claude Sonnet 4、Sonnet 4.5、Haiku 4.5、Opus 4.5、Opus 4.6を個別に指定することも可能です。Autoは品質・レイテンシ・コストのバランスが最適化されており、個別モデルを指定するとクレジット消費量が変わります。
 
 ### Kiroの使い方
 
