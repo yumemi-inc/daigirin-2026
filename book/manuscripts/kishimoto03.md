@@ -72,7 +72,7 @@ class: content
 
 先ほどの5つのサイトは独立したものではなく、相互にリンクを張り合って、「あらゆる経路がDiscordに流入し、Discordから様々なイベントに流出していく」という構造を作っています。
 
-![](./images_kishimoto03/kishimoto03_01.png)
+![](./images_kishimoto03/kishimoto03_01.jpg)
 <p style="text-align: center"><em>Discordを中心としてその他のイベントや学習サイトが循環するイメージ図</em></p>
 
 どこかのサイトを接点にして、Discordへ入る。Discordで日々の学習を発信してみて、Discord経由でイベントを知って参加する。
