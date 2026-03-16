@@ -1,3 +1,12 @@
+---
+class: content
+---
+
+<div class="doc-header">
+  <div class="doc-title">Flutter アプリに New Relic を導入してモバイル監視・分析を始める</div>
+  <div class="doc-author">横田孝次郎</div>
+</div>
+
 # Flutter アプリに New Relic を導入してモバイル監視・分析を始める
 
 ## はじめに
