@@ -185,3 +185,8 @@ class: content
 なので、次はあなたの住む街で、誰かがAIまつりをやり始めるかもしれません。
 
 一緒に、楽しく増やしていきましょう。
+
+<!-- markdownlint-disable MD041 -->
+<hr class="page-break" />
+　
+<!-- markdownlint-enable MD041 -->

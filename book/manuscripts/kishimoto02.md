@@ -247,3 +247,8 @@ class: content
 とりあえず私のやつをテンプレとしてCloneして動かしてみて、こういうの載せてみよーというふうに使ってみてくださいませ。きっとそれが良き一歩目となります。
 
 それでは、e-learningサイトを作ろうという皆さんを応援して、本記事の結びとします。
+
+<!-- markdownlint-disable MD041 -->
+<hr class="page-break" />
+　
+<!-- markdownlint-enable MD041 -->

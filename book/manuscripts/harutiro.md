@@ -368,6 +368,10 @@ Region(uniqueId, id1, id2, id3)
 
 `RangeNotifier` はビーコンのスキャン結果を受け取るコールバックです。`addRangeNotifier` で登録し、`startRangingBeacons` でスキャンを開始します。Compose の `DisposableEffect` を使い、画面を離れたときに `stopRangingBeacons` と `removeRangeNotifier` で後片付けを行います。検出された各 `Beacon` オブジェクトからは UUID（`id1`）、Major（`id2`）、Minor（`id3`）、RSSI、推定距離（`distance`）を取得できます。
 
+<!-- markdownlint-disable MD041 -->
+<hr class="page-break" />
+<!-- markdownlint-enable MD041 -->
+
 ## 作成したアプリの動作イメージ
 
 実際に作成したアプリを動かすと、送信側で「送信開始」ボタンを押すとビーコンの電波が発信され、受信側で「スキャン開始」ボタンを押すと周囲のビーコンが検出されてリスト表示されます。UUID、Major、Minor、RSSI、推定距離がリアルタイムで更新されます。
@@ -376,8 +380,17 @@ Region(uniqueId, id1, id2, id3)
 
 ![実際の動作イメージ](./images_harutiro/ibeacon-demo.jpg)
 
+<!-- markdownlint-disable MD041 -->
+<hr class="page-break" />
+<!-- markdownlint-enable MD041 -->
+
 ## まとめ
 
 今回は、Android Beacon Library を使った iBeacon の送受信を実装しました。`BeaconTransmitter` で送信し、`BeaconManager` と `RangeNotifier` で受信するというシンプルな構成です。
 BLEビーコンは、店舗のクーポン配信や屋内測位、接触確認アプリなど、様々な用途で活用されてきました。近年はあまり見かけなくなりましたが、BLE の技術は進歩しており、今後どこかで大きな変換点が来ると私は確信しています。
 3DSの時に行われた、すれちがい通信を活用した革新的なゲームなども数多く生まれました。こういったネイティブ機能やハードウェアの特性を活かした面白い体験作成できると思います。ぜひ、BLEビーコンを活用して、面白い体験を作ってみてください。
+
+<!-- markdownlint-disable MD041 -->
+<hr class="page-break" />
+　
+<!-- markdownlint-enable MD041 -->

@@ -450,3 +450,8 @@ https://github.com/yuuka51/lambda-managed-instances-labs
 - DuckDB公式ドキュメント: https://duckdb.org/
 - Polars公式ドキュメント: https://pola.rs/
 - Pandas公式ドキュメント: https://pandas.pydata.org/
+
+<!-- markdownlint-disable MD041 -->
+<hr class="page-break" />
+　
+<!-- markdownlint-enable MD041 -->

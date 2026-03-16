@@ -210,6 +210,10 @@ Webエンジニアとして、私たちはすでに多くのログを扱って�
 
 ![勉強会参加用QRコード](./images_kitaji0306/connpass1.jpg)
 
+<!-- markdownlint-disable MD041 -->
+<hr class="page-break" />　
+<!-- markdownlint-enable MD041 -->
+
 ### レトロゲーから学ぶエンジニアとかマジウケる！
 
 ITエンジニアがレトロゲームから得た学びの『アウトプット』を通して人との『繋がり』や学ぶこと自体を『楽しむ』コミュニティです！！
