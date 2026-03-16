@@ -32,6 +32,7 @@ module.exports = {
     'harutiro.md',
     'yokota.md',
     'kawashima.md',
+    'ad_motsu.md',
     
     // 著者紹介
     'authors.md',
