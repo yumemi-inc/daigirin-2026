@@ -1,6 +1,6 @@
 module.exports = {
-  title: "ゆめみ大技林 '26",
-  author: 'ゆめみ大技林製作委員会',
+  title: "ゆめみより '26",
+  author: 'ゆめみより製作委員会',
   language: 'ja',
   size: 'A5',
   theme: [

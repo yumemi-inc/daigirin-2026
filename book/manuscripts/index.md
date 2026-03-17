@@ -2,14 +2,14 @@
 class: exclude-hashira
 ---
 
-# ゆめみ大技林 '26
+# ゆめみより '26
 
 <nav id="toc" role="doc-toc">
 
 ## 目次
 
 1. [はじめに](preface.html)
-1. [ゆめみ大技林製作委員会とは](preface.html)
+1. [ゆめみより製作委員会とは](preface.html)
 1. [ゼロからわかる Solana NFT 開発 | マッサン](solana-nft-complete-guide.html)
 1. [Solana の SOL → USDC スワップを徹底理解する | マッサン](solana-swap-complete-guide.html)
 1. [Anchor 開発入門：Hello World から Adventure Slot まで | マッサン](solana-anchor.html)
