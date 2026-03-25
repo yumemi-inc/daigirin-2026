@@ -27,7 +27,8 @@ DOCKER = \
 
 DOCKER_ENV = \
 	-e HOME=/tmp \
-	-e NPM_CONFIG_CACHE=/tmp/.npm
+	-e NPM_CONFIG_CACHE=/tmp/.npm \
+	-e PUPPETEER_CACHE_DIR=/tmp/puppeteer
 
 DOCKER_COMPOSE = \
 	@$(MAKE) prepare_docker; \
