@@ -19,10 +19,15 @@ ALL_DOCKER_IMAGES := $(TEXT_LINT_IMAGE_NAME) $(VIVLIOSTYLE_CLI_IMAGE_NAME)
 # https://hub.docker.com/_/node
 NODE_IMAGE_NAME := node
 NODE_IMAGE_TAG := 24-alpine
+DOCKER_USER := $(shell id -u):$(shell id -g)
 
 DOCKER = \
 	@$(MAKE) prepare_docker; \
 	$(shell command -v docker)
+
+DOCKER_ENV = \
+	-e HOME=/tmp \
+	-e NPM_CONFIG_CACHE=/tmp/.npm
 
 DOCKER_COMPOSE = \
 	@$(MAKE) prepare_docker; \
@@ -30,12 +35,16 @@ DOCKER_COMPOSE = \
 
 VIVLIOSTYLE_CLI = $(DOCKER) run \
 	--rm \
+	--user $(DOCKER_USER) \
+	$(DOCKER_ENV) \
 	-v $(BOOK_DIR):/local \
 	-w /local \
 	$(VIVLIOSTYLE_CLI_IMAGE_NAME):$(VIVLIOSTYLE_CLI_IMAGE_TAG) \
 
 NODE_RUN = $(DOCKER) run \
 	--rm \
+	--user $(DOCKER_USER) \
+	$(DOCKER_ENV) \
 	-v $(MAKEFILE_DIR):/local \
 	-w /local \
 	$(NODE_IMAGE_NAME):$(NODE_IMAGE_TAG) \
